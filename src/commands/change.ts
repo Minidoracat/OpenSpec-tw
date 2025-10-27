@@ -34,17 +34,17 @@ export class ChangeCommand {
       const changes = await this.getActiveChanges(changesPath);
       if (canPrompt && changes.length > 0) {
         const selected = await select({
-          message: 'Select a change to show',
+          message: '選擇要顯示的變更',
           choices: changes.map(id => ({ name: id, value: id })),
         });
         changeName = selected;
       } else {
         if (changes.length === 0) {
-          console.error('No change specified. No active changes found.');
+          console.error('未指定變更。找不到活動變更。');
         } else {
-          console.error(`No change specified. Available IDs: ${changes.join(', ')}`);
+          console.error(`未指定變更。可用的 ID:${changes.join(', ')}`);
         }
-        console.error('Hint: use "openspec change list" to view available changes.');
+        console.error('提示:使用 "openspec-tw change list" 查看可用的變更。');
         process.exitCode = 1;
         return;
       }
@@ -55,14 +55,14 @@ export class ChangeCommand {
     try {
       await fs.access(proposalPath);
     } catch {
-      throw new Error(`Change "${changeName}" not found at ${proposalPath}`);
+      throw new Error(`找不到變更 "${changeName}":${proposalPath}`);
     }
 
     if (options?.json) {
       const jsonOutput = await this.converter.convertChangeToJson(proposalPath);
 
       if (options.requirementsOnly) {
-        console.error('Flag --requirements-only is deprecated; use --deltas-only instead.');
+        console.error('旗標 --requirements-only 已棄用;請使用 --deltas-only。');
       }
 
       const parsed: Change = JSON.parse(jsonOutput);
@@ -143,7 +143,7 @@ export class ChangeCommand {
       console.log(JSON.stringify(sorted, null, 2));
     } else {
       if (changes.length === 0) {
-        console.log('No items found');
+        console.log('找不到項目');
         return;
       }
       const sorted = [...changes].sort();
@@ -190,17 +190,17 @@ export class ChangeCommand {
       const changes = await getActiveChangeIds();
       if (canPrompt && changes.length > 0) {
         const selected = await select({
-          message: 'Select a change to validate',
+          message: '選擇要驗證的變更',
           choices: changes.map(id => ({ name: id, value: id })),
         });
         changeName = selected;
       } else {
         if (changes.length === 0) {
-          console.error('No change specified. No active changes found.');
+          console.error('未指定變更。找不到活動變更。');
         } else {
-          console.error(`No change specified. Available IDs: ${changes.join(', ')}`);
+          console.error(`未指定變更。可用的 ID:${changes.join(', ')}`);
         }
-        console.error('Hint: use "openspec change list" to view available changes.');
+        console.error('提示:使用 "openspec-tw change list" 查看可用的變更。');
         process.exitCode = 1;
         return;
       }
@@ -211,21 +211,21 @@ export class ChangeCommand {
     try {
       await fs.access(changeDir);
     } catch {
-      throw new Error(`Change "${changeName}" not found at ${changeDir}`);
+      throw new Error(`找不到變更 "${changeName}":${changeDir}`);
     }
-    
+
     const validator = new Validator(options?.strict || false);
     const report = await validator.validateChangeDeltaSpecs(changeDir);
-    
+
     if (options?.json) {
       console.log(JSON.stringify(report, null, 2));
     } else {
       if (report.valid) {
-        console.log(`Change "${changeName}" is valid`);
+        console.log(`變更 "${changeName}" 有效`);
       } else {
-        console.error(`Change "${changeName}" has issues`);
+        console.error(`變更 "${changeName}" 有問題`);
         report.issues.forEach(issue => {
-          const label = issue.level === 'ERROR' ? 'ERROR' : 'WARNING';
+          const label = issue.level === 'ERROR' ? '錯誤' : '警告';
           const prefix = issue.level === 'ERROR' ? '✗' : '⚠';
           console.error(`${prefix} [${label}] ${issue.path}: ${issue.message}`);
         });
@@ -282,10 +282,10 @@ export class ChangeCommand {
 
   private printNextSteps(): void {
     const bullets: string[] = [];
-    bullets.push('- Ensure change has deltas in specs/: use headers ## ADDED/MODIFIED/REMOVED/RENAMED Requirements');
-    bullets.push('- Each requirement MUST include at least one #### Scenario: block');
-    bullets.push('- Debug parsed deltas: openspec change show <id> --json --deltas-only');
-    console.error('Next steps:');
+    bullets.push('- 確保變更在 specs/ 中有差異:使用標題 ## ADDED/MODIFIED/REMOVED/RENAMED Requirements');
+    bullets.push('- 每個需求必須包含至少一個 #### Scenario: 區塊');
+    bullets.push('- 除錯已解析的差異:openspec-tw change show <id> --json --deltas-only');
+    console.error('後續步驟:');
     bullets.forEach(b => console.error(`  ${b}`));
   }
 }

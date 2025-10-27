@@ -1,18 +1,21 @@
 {
-  "name": "@fission-ai/openspec",
-  "version": "0.13.0",
-  "description": "AI-native system for spec-driven development",
+  "name": "@minidoracat/openspec-tw",
+  "version": "0.13.0-tw.1",
+  "description": "繁體中文 AI 原生的規範驅動開發系統",
   "keywords": [
     "openspec",
+    "openspec-tw",
     "specs",
     "cli",
     "ai",
-    "development"
+    "development",
+    "traditional-chinese",
+    "繁體中文"
   ],
-  "homepage": "https://github.com/Fission-AI/OpenSpec",
+  "homepage": "https://github.com/Minidoracat/OpenSpec-tw",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Fission-AI/OpenSpec"
+    "url": "https://github.com/Minidoracat/OpenSpec-tw"
   },
   "license": "MIT",
   "author": "OpenSpec Contributors",
@@ -27,7 +30,7 @@
     }
   },
   "bin": {
-    "openspec": "./bin/openspec.js"
+    "openspec-tw": "./bin/openspec.js"
   },
   "files": [
     "dist",

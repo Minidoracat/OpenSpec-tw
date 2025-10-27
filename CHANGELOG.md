@@ -1,4 +1,44 @@
-# @fission-ai/openspec
+# @minidoracat/openspec-tw
+
+## 0.13.0-tw.1 - 2025-10-28
+
+### 繁體中文本地化版本
+
+這是 OpenSpec 的繁體中文版本，基於原版 [v0.13.0](https://github.com/Fission-AI/OpenSpec/releases/tag/0.13.0)。
+
+#### 品牌更新
+- 套件名稱：`@fission-ai/openspec` → `@minidoracat/openspec-tw`
+- 命令名稱：`openspec` → `openspec-tw`
+- 儲存庫：`Fission-AI/OpenSpec` → `Minidoracat/OpenSpec-tw`
+
+#### 繁體中文本地化內容
+- ✅ **使用者文件**：README.md 完整翻譯
+- ✅ **AI 助手整合**：AGENTS.md 和 openspec/AGENTS.md 翻譯
+- ✅ **模板系統**：agents-template.ts、project-template.ts、cline-template.ts 翻譯
+- ✅ **Slash 命令**：slash-command-templates.ts 所有命令模板翻譯
+- ✅ **CLI 介面**：
+  - src/cli/index.ts - 主進入點和所有命令描述
+  - src/commands/change.ts - 變更管理命令
+  - src/commands/validate.ts - 驗證命令
+  - src/core/init.ts - 初始化流程（約 50+ 條訊息）
+  - src/core/archive.ts - 封存命令（約 30+ 條訊息）
+  - src/core/list.ts - 列表功能
+  - src/core/view.ts - 儀表板視圖
+  - src/core/update.ts - 更新命令
+- ✅ **翻譯統計**：約 200+ 條使用者可見訊息完整翻譯
+
+#### 翻譯原則
+- 保留技術術語英文（CLI、JSON、YAML、Markdown）
+- 保留 AI 工具名稱（Claude Code、CodeBuddy、Cursor 等）
+- 所有使用者介面訊息翻譯為繁體中文
+- 中英文混排遵循專業技術文件標準
+
+#### 功能一致性
+- 與原版 v0.13.0 功能完全一致
+- 支援所有相同的 AI 助手
+- 保持所有技術實作和驗證邏輯
+
+---
 
 ## 0.13.0
 

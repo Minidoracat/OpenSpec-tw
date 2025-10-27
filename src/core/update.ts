@@ -13,7 +13,7 @@ export class UpdateCommand {
 
     // 1. Check openspec directory exists
     if (!await FileSystemUtils.directoryExists(openspecPath)) {
-      throw new Error(`No OpenSpec directory found. Run 'openspec init' first.`);
+      throw new Error(`找不到 OpenSpec 目錄。請先執行 'openspec-tw init'。`);
     }
 
     // 2. Update AGENTS.md (full replacement)
@@ -46,7 +46,7 @@ export class UpdateCommand {
       try {
         if (fileExists && !await FileSystemUtils.canWriteFile(configFilePath)) {
           throw new Error(
-            `Insufficient permissions to modify ${configurator.configFileName}`
+            `權限不足，無法修改 ${configurator.configFileName}`
           );
         }
 
@@ -59,7 +59,7 @@ export class UpdateCommand {
       } catch (error) {
         failedFiles.push(configurator.configFileName);
         console.error(
-          `Failed to update ${configurator.configFileName}: ${
+          `更新 ${configurator.configFileName} 失敗：${
             error instanceof Error ? error.message : String(error)
           }`
         );
@@ -80,7 +80,7 @@ export class UpdateCommand {
       } catch (error) {
         failedSlashTools.push(slashConfigurator.toolId);
         console.error(
-          `Failed to update slash commands for ${slashConfigurator.toolId}: ${
+          `更新 ${slashConfigurator.toolId} 的 slash 命令失敗：${
             error instanceof Error ? error.message : String(error)
           }`
         );
@@ -97,29 +97,29 @@ export class UpdateCommand {
     }
 
     summaryParts.push(
-      `Updated OpenSpec instructions (${instructionFiles.join(', ')})`
+      `已更新 OpenSpec 指令（${instructionFiles.join('、')}）`
     );
 
     const aiToolFiles = updatedFiles.filter((file) => file !== 'AGENTS.md');
     if (aiToolFiles.length > 0) {
-      summaryParts.push(`Updated AI tool files: ${aiToolFiles.join(', ')}`);
+      summaryParts.push(`已更新 AI 工具檔案：${aiToolFiles.join('、')}`);
     }
 
     if (updatedSlashFiles.length > 0) {
       // Normalize to forward slashes for cross-platform log consistency
       const normalized = updatedSlashFiles.map((p) => p.replace(/\\/g, '/'));
-      summaryParts.push(`Updated slash commands: ${normalized.join(', ')}`);
+      summaryParts.push(`已更新 slash 命令：${normalized.join('、')}`);
     }
 
     const failedItems = [
       ...failedFiles,
       ...failedSlashTools.map(
-        (toolId) => `slash command refresh (${toolId})`
+        (toolId) => `slash 命令更新（${toolId}）`
       ),
     ];
 
     if (failedItems.length > 0) {
-      summaryParts.push(`Failed to update: ${failedItems.join(', ')}`);
+      summaryParts.push(`更新失敗：${failedItems.join('、')}`);
     }
 
     console.log(summaryParts.join(' | '));

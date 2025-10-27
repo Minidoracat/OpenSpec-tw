@@ -1,16 +1,16 @@
-export const agentsRootStubTemplate = `# OpenSpec Instructions
+export const agentsRootStubTemplate = `# OpenSpec 指令
 
-These instructions are for AI assistants working in this project.
+這些指令是給在此專案工作的 AI 助手使用。
 
-Always open \`@/openspec/AGENTS.md\` when the request:
-- Mentions planning or proposals (words like proposal, spec, change, plan)
-- Introduces new capabilities, breaking changes, architecture shifts, or big performance/security work
-- Sounds ambiguous and you need the authoritative spec before coding
+當請求符合以下情況時，始終開啟 \`@/openspec/AGENTS.md\`：
+- 提到規劃或提案（如 proposal、spec、change、plan 等詞）
+- 引入新功能、破壞性變更、架構變更或重大效能/安全性工作
+- 聽起來不明確且您需要在編碼前取得權威規範
 
-Use \`@/openspec/AGENTS.md\` to learn:
-- How to create and apply change proposals
-- Spec format and conventions
-- Project structure and guidelines
+使用 \`@/openspec/AGENTS.md\` 來學習：
+- 如何建立和應用變更提案
+- 規範格式和慣例
+- 專案結構和指南
 
-Keep this managed block so 'openspec update' can refresh the instructions.
+保留此管理區塊，以便 'openspec-tw update' 可以刷新指令。
 `;

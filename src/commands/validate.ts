@@ -65,12 +65,12 @@ export class ValidateCommand {
 
   private async runInteractiveSelector(opts: { strict: boolean; json: boolean; concurrency?: string }): Promise<void> {
     const choice = await select({
-      message: 'What would you like to validate?',
+      message: '您想驗證什麼？',
       choices: [
-        { name: 'All (changes + specs)', value: 'all' },
-        { name: 'All changes', value: 'changes' },
-        { name: 'All specs', value: 'specs' },
-        { name: 'Pick a specific change or spec', value: 'one' },
+        { name: '全部（變更 + 規範）', value: 'all' },
+        { name: '全部變更', value: 'changes' },
+        { name: '全部規範', value: 'specs' },
+        { name: '選擇特定的變更或規範', value: 'one' },
       ],
     });
 
@@ -84,21 +84,21 @@ export class ValidateCommand {
     items.push(...changes.map(id => ({ name: `change/${id}`, value: { type: 'change' as const, id } })));
     items.push(...specs.map(id => ({ name: `spec/${id}`, value: { type: 'spec' as const, id } })));
     if (items.length === 0) {
-      console.error('No items found to validate.');
+      console.error('找不到要驗證的項目。');
       process.exitCode = 1;
       return;
     }
-    const picked = await select<{ type: ItemType; id: string }>({ message: 'Pick an item', choices: items });
+    const picked = await select<{ type: ItemType; id: string }>({ message: '選擇一個項目', choices: items });
     await this.validateByType(picked.type, picked.id, opts);
   }
 
   private printNonInteractiveHint(): void {
-    console.error('Nothing to validate. Try one of:');
-    console.error('  openspec validate --all');
-    console.error('  openspec validate --changes');
-    console.error('  openspec validate --specs');
-    console.error('  openspec validate <item-name>');
-    console.error('Or run in an interactive terminal.');
+    console.error('沒有要驗證的內容。請嘗試以下命令：');
+    console.error('  openspec-tw validate --all');
+    console.error('  openspec-tw validate --changes');
+    console.error('  openspec-tw validate --specs');
+    console.error('  openspec-tw validate <item-name>');
+    console.error('或在互動式終端機中執行。');
   }
 
   private async validateDirectItem(itemName: string, opts: { typeOverride?: ItemType; strict: boolean; json: boolean }): Promise<void> {
@@ -109,16 +109,16 @@ export class ValidateCommand {
     const type = opts.typeOverride ?? (isChange ? 'change' : isSpec ? 'spec' : undefined);
 
     if (!type) {
-      console.error(`Unknown item '${itemName}'`);
+      console.error(`未知項目 '${itemName}'`);
       const suggestions = nearestMatches(itemName, [...changes, ...specs]);
-      if (suggestions.length) console.error(`Did you mean: ${suggestions.join(', ')}?`);
+      if (suggestions.length) console.error(`您是指：${suggestions.join(', ')}？`);
       process.exitCode = 1;
       return;
     }
 
     if (!opts.typeOverride && isChange && isSpec) {
-      console.error(`Ambiguous item '${itemName}' matches both a change and a spec.`);
-      console.error('Pass --type change|spec, or use: openspec change validate / openspec spec validate');
+      console.error(`項目 '${itemName}' 模糊不清，同時符合變更和規範。`);
+      console.error('請傳遞 --type change|spec，或使用：openspec-tw change validate / openspec-tw spec validate');
       process.exitCode = 1;
       return;
     }
@@ -153,9 +153,9 @@ export class ValidateCommand {
       return;
     }
     if (report.valid) {
-      console.log(`${type === 'change' ? 'Change' : 'Specification'} '${id}' is valid`);
+      console.log(`${type === 'change' ? '變更' : '規範'} '${id}' 有效`);
     } else {
-      console.error(`${type === 'change' ? 'Change' : 'Specification'} '${id}' has issues`);
+      console.error(`${type === 'change' ? '變更' : '規範'} '${id}' 有問題`);
       for (const issue of report.issues) {
         const label = issue.level === 'ERROR' ? 'ERROR' : issue.level;
         const prefix = issue.level === 'ERROR' ? '✗' : issue.level === 'WARNING' ? '⚠' : 'ℹ';
@@ -168,20 +168,20 @@ export class ValidateCommand {
   private printNextSteps(type: ItemType): void {
     const bullets: string[] = [];
     if (type === 'change') {
-      bullets.push('- Ensure change has deltas in specs/: use headers ## ADDED/MODIFIED/REMOVED/RENAMED Requirements');
-      bullets.push('- Each requirement MUST include at least one #### Scenario: block');
-      bullets.push('- Debug parsed deltas: openspec change show <id> --json --deltas-only');
+      bullets.push('- 確保變更在 specs/ 中有差異：使用標題 ## ADDED/MODIFIED/REMOVED/RENAMED Requirements');
+      bullets.push('- 每個需求必須包含至少一個 #### Scenario: 區塊');
+      bullets.push('- 除錯已解析的差異：openspec-tw change show <id> --json --deltas-only');
     } else {
-      bullets.push('- Ensure spec includes ## Purpose and ## Requirements sections');
-      bullets.push('- Each requirement MUST include at least one #### Scenario: block');
-      bullets.push('- Re-run with --json to see structured report');
+      bullets.push('- 確保規範包含 ## Purpose 和 ## Requirements 部分');
+      bullets.push('- 每個需求必須包含至少一個 #### Scenario: 區塊');
+      bullets.push('- 使用 --json 重新執行以查看結構化報告');
     }
-    console.error('Next steps:');
+    console.error('後續步驟：');
     bullets.forEach(b => console.error(`  ${b}`));
   }
 
   private async runBulkValidation(scope: { changes: boolean; specs: boolean }, opts: { strict: boolean; json: boolean; concurrency?: string }): Promise<void> {
-    const spinner = !opts.json ? ora('Validating...').start() : undefined;
+    const spinner = !opts.json ? ora('驗證中...').start() : undefined;
     const [changeIds, specIds] = await Promise.all([
       scope.changes ? getActiveChangeIds() : Promise.resolve<string[]>([]),
       scope.specs ? getSpecIds() : Promise.resolve<string[]>([]),
@@ -224,7 +224,7 @@ export class ValidateCommand {
           const currentIndex = index++;
           const task = queue[currentIndex];
           running++;
-          if (spinner) spinner.text = `Validating (${currentIndex + 1}/${queue.length})...`;
+          if (spinner) spinner.text = `驗證中 (${currentIndex + 1}/${queue.length})...`;
           task()
             .then(res => {
               results.push(res);
@@ -265,7 +265,7 @@ export class ValidateCommand {
         if (res.valid) console.log(`✓ ${res.type}/${res.id}`);
         else console.error(`✗ ${res.type}/${res.id}`);
       }
-      console.log(`Totals: ${summary.totals.passed} passed, ${summary.totals.failed} failed (${summary.totals.items} items)`);
+      console.log(`總計：${summary.totals.passed} 通過，${summary.totals.failed} 失敗（${summary.totals.items} 項目）`);
     }
 
     process.exitCode = failed > 0 ? 1 : 0;

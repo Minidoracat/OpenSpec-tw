@@ -33,9 +33,9 @@ describe('ListCommand', () => {
   describe('execute', () => {
     it('should handle missing openspec/changes directory', async () => {
       const listCommand = new ListCommand();
-      
+
       await expect(listCommand.execute(tempDir, 'changes')).rejects.toThrow(
-        "No OpenSpec changes directory found. Run 'openspec init' first."
+        "找不到 OpenSpec 變更目錄。請先執行 'openspec-tw init'。"
       );
     });
 
@@ -46,7 +46,7 @@ describe('ListCommand', () => {
       const listCommand = new ListCommand();
       await listCommand.execute(tempDir, 'changes');
 
-      expect(logOutput).toEqual(['No active changes found.']);
+      expect(logOutput).toEqual(['找不到使用中的變更。']);
     });
 
     it('should exclude archive directory', async () => {
@@ -63,7 +63,7 @@ describe('ListCommand', () => {
       const listCommand = new ListCommand();
       await listCommand.execute(tempDir, 'changes');
 
-      expect(logOutput).toContain('Changes:');
+      expect(logOutput).toContain('變更：');
       expect(logOutput.some(line => line.includes('my-change'))).toBe(true);
       expect(logOutput.some(line => line.includes('archive'))).toBe(false);
     });
@@ -156,7 +156,7 @@ Regular text that should be ignored
       const listCommand = new ListCommand();
       await listCommand.execute(tempDir);
 
-      expect(logOutput).toContain('Changes:');
+      expect(logOutput).toContain('變更：');
       expect(logOutput.some(line => line.includes('completed') && line.includes('✓ Complete'))).toBe(true);
       expect(logOutput.some(line => line.includes('partial') && line.includes('1/3 tasks'))).toBe(true);
       expect(logOutput.some(line => line.includes('no-tasks') && line.includes('No tasks'))).toBe(true);
