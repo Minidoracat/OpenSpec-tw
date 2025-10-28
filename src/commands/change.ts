@@ -282,10 +282,10 @@ export class ChangeCommand {
 
   private printNextSteps(): void {
     const bullets: string[] = [];
-    bullets.push('- 確保變更在 specs/ 中有差異:使用標題 ## ADDED/MODIFIED/REMOVED/RENAMED Requirements');
+    bullets.push('- 確保變更在 specs/ 中有差異：使用標題 ## ADDED/MODIFIED/REMOVED/RENAMED Requirements');
     bullets.push('- 每個需求必須包含至少一個 #### Scenario: 區塊');
-    bullets.push('- 除錯已解析的差異:openspec-tw change show <id> --json --deltas-only');
-    console.error('後續步驟:');
+    bullets.push('- 除錯已解析的差異：openspec-tw change show <id> --json --deltas-only');
+    console.error('下一步：');
     bullets.forEach(b => console.error(`  ${b}`));
   }
 }
