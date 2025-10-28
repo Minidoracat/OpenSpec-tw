@@ -1,5 +1,18 @@
 # @minidoracat/openspec-tw
 
+## 0.13.0
+
+### Minor Changes
+
+- 71b25de: 繁體中文本地化版本
+
+  - 完成所有使用者介面訊息的繁體中文翻譯
+  - 更新套件名稱為 @minidoracat/openspec-tw
+  - 更新命令名稱為 openspec-tw
+  - 翻譯所有模板系統（AGENTS.md、slash 命令等）
+  - 完成測試斷言的本地化更新
+  - 修正 CI 配置以支援自動發布
+
 ## 0.13.0-tw.1 - 2025-10-28
 
 ### 繁體中文本地化版本
@@ -7,11 +20,13 @@
 這是 OpenSpec 的繁體中文版本，基於原版 [v0.13.0](https://github.com/Fission-AI/OpenSpec/releases/tag/0.13.0)。
 
 #### 品牌更新
+
 - 套件名稱：`@fission-ai/openspec` → `@minidoracat/openspec-tw`
 - 命令名稱：`openspec` → `openspec-tw`
 - 儲存庫：`Fission-AI/OpenSpec` → `Minidoracat/OpenSpec-tw`
 
 #### 繁體中文本地化內容
+
 - ✅ **使用者文件**：README.md 完整翻譯
 - ✅ **AI 助手整合**：AGENTS.md 和 openspec/AGENTS.md 翻譯
 - ✅ **模板系統**：agents-template.ts、project-template.ts、cline-template.ts 翻譯
@@ -28,12 +43,14 @@
 - ✅ **翻譯統計**：約 200+ 條使用者可見訊息完整翻譯
 
 #### 翻譯原則
+
 - 保留技術術語英文（CLI、JSON、YAML、Markdown）
 - 保留 AI 工具名稱（Claude Code、CodeBuddy、Cursor 等）
 - 所有使用者介面訊息翻譯為繁體中文
 - 中英文混排遵循專業技術文件標準
 
 #### 功能一致性
+
 - 與原版 v0.13.0 功能完全一致
 - 支援所有相同的 AI 助手
 - 保持所有技術實作和驗證邏輯
