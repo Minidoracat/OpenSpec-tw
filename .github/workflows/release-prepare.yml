@@ -37,12 +37,13 @@ jobs:
 
       # Opens/updates the Version Packages PR; publishes when the Version PR merges
       - name: Create/Update Version PR
+        id: changesets
         uses: changesets/action@v1
         with:
+          version: pnpm exec changeset version
+          commit: 'chore(release): version packages'
           title: 'chore(release): version packages'
           createGithubReleases: true
-          # Use CI-specific release script: relies on version PR having been merged
-          # so package.json already contains the bumped version.
           publish: pnpm run release:ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
