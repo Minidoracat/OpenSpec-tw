@@ -59,17 +59,17 @@ More content after.`;
     expect(updatedContent).toContain('<!-- OPENSPEC:START -->');
     expect(updatedContent).toContain('<!-- OPENSPEC:END -->');
     expect(updatedContent).toContain("@/openspec/AGENTS.md");
-    expect(updatedContent).toContain('openspec update');
+    expect(updatedContent).toContain('openspec-tw update');
     expect(updatedContent).toContain('Some existing content here');
     expect(updatedContent).toContain('More content after');
 
     // Check console output
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
-    expect(logMessage).toContain('Updated AI tool files: CLAUDE.md');
+    expect(logMessage).toContain('已更新 AI 工具檔案：CLAUDE.md');
     consoleSpy.mockRestore();
   });
 
@@ -96,19 +96,19 @@ Old slash content
 
     const updated = await fs.readFile(proposalPath, 'utf-8');
     expect(updated).toContain('name: OpenSpec: Proposal');
-    expect(updated).toContain('**Guardrails**');
+    expect(updated).toContain('**指導原則**');
     expect(updated).toContain(
-      'Validate with `openspec validate <id> --strict`'
+      '使用 `openspec-tw validate <id> --strict` 驗證'
     );
     expect(updated).not.toContain('Old slash content');
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
     expect(logMessage).toContain(
-      'Updated slash commands: .claude/commands/openspec/proposal.md'
+      '已更新 slash 命令： .claude/commands/openspec/proposal.md'
     );
 
     consoleSpy.mockRestore();
@@ -150,17 +150,17 @@ More rules after.`;
     expect(updatedContent).toContain('<!-- OPENSPEC:START -->');
     expect(updatedContent).toContain('<!-- OPENSPEC:END -->');
     expect(updatedContent).toContain("@/openspec/AGENTS.md");
-    expect(updatedContent).toContain('openspec update');
+    expect(updatedContent).toContain('openspec-tw update');
     expect(updatedContent).toContain('Some existing Cline rules here');
     expect(updatedContent).toContain('More rules after');
 
     // Check console output
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
-    expect(logMessage).toContain('Updated AI tool files: CLINE.md');
+    expect(logMessage).toContain('已更新 AI 工具檔案：CLINE.md');
     consoleSpy.mockRestore();
   });
 
@@ -197,19 +197,19 @@ Old slash content
 
     const updated = await fs.readFile(proposalPath, 'utf-8');
     expect(updated).toContain('# OpenSpec: Proposal');
-    expect(updated).toContain('**Guardrails**');
+    expect(updated).toContain('**指導原則**');
     expect(updated).toContain(
-      'Validate with `openspec validate <id> --strict`'
+      '使用 `openspec-tw validate <id> --strict` 驗證'
     );
     expect(updated).not.toContain('Old slash content');
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
     expect(logMessage).toContain(
-      'Updated slash commands: .clinerules/openspec-proposal.md'
+      '已更新 slash 命令： .clinerules/openspec-proposal.md'
     );
 
     consoleSpy.mockRestore();
@@ -235,16 +235,16 @@ Old body
 
     const updated = await fs.readFile(cursorPath, 'utf-8');
     expect(updated).toContain('id: openspec-apply');
-    expect(updated).toContain('Work through tasks sequentially');
+    expect(updated).toContain('依序執行任務');
     expect(updated).not.toContain('Old body');
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
     expect(logMessage).toContain(
-      'Updated slash commands: .cursor/commands/openspec-apply.md'
+      '已更新 slash 命令： .cursor/commands/openspec-apply.md'
     );
 
     consoleSpy.mockRestore();
@@ -273,16 +273,16 @@ Old body
 
     const updated = await fs.readFile(openCodePath, 'utf-8');
     expect(updated).toContain('id: openspec-apply');
-    expect(updated).toContain('Work through tasks sequentially');
+    expect(updated).toContain('依序執行任務');
     expect(updated).not.toContain('Old body');
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
     expect(logMessage).toContain(
-      'Updated slash commands: .opencode/command/openspec-apply.md'
+      '已更新 slash 命令： .opencode/command/openspec-apply.md'
     );
 
     consoleSpy.mockRestore();
@@ -304,13 +304,13 @@ Old body
     await updateCommand.execute(testDir);
 
     const updated = await fs.readFile(kilocodePath, 'utf-8');
-    expect(updated).toContain('Work through tasks sequentially');
+    expect(updated).toContain('依序執行任務');
     expect(updated).not.toContain('Old body');
     expect(updated.startsWith('<!-- OPENSPEC:START -->')).toBe(true);
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated slash commands: .kilocode/workflows/openspec-apply.md'
+      '已更新 slash 命令： .kilocode/workflows/openspec-apply.md'
     );
 
     consoleSpy.mockRestore();
@@ -334,13 +334,13 @@ Old body
     await updateCommand.execute(testDir);
 
     const updated = await fs.readFile(wsPath, 'utf-8');
-    expect(updated).toContain('Work through tasks sequentially');
+    expect(updated).toContain('依序執行任務');
     expect(updated).not.toContain('Old body');
     expect(updated).toContain('## OpenSpec: Apply (Windsurf)');
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated slash commands: .windsurf/workflows/openspec-apply.md'
+      '已更新 slash 命令： .windsurf/workflows/openspec-apply.md'
     );
     consoleSpy.mockRestore();
   });
@@ -362,13 +362,13 @@ Old body
     expect(updated).toContain('description: Implement an approved OpenSpec change and keep tasks in sync.');
     expect(updated).toContain('argument-hint: change-id');
     expect(updated).toContain('$ARGUMENTS');
-    expect(updated).toContain('Work through tasks sequentially');
+    expect(updated).toContain('依序執行任務');
     expect(updated).not.toContain('Old body');
     expect(updated).not.toContain('Old description');
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated slash commands: .codex/prompts/openspec-apply.md'
+      '已更新 slash 命令： .codex/prompts/openspec-apply.md'
     );
 
     consoleSpy.mockRestore();
@@ -426,12 +426,12 @@ Old body
     const updated = await fs.readFile(ghPath, 'utf-8');
     expect(updated).toContain('description: Implement an approved OpenSpec change and keep tasks in sync.');
     expect(updated).toContain('$ARGUMENTS');
-    expect(updated).toContain('Work through tasks sequentially');
+    expect(updated).toContain('依序執行任務');
     expect(updated).not.toContain('Old body');
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated slash commands: .github/prompts/openspec-apply.prompt.md'
+      '已更新 slash 命令： .github/prompts/openspec-apply.prompt.md'
     );
 
     consoleSpy.mockRestore();
@@ -492,7 +492,7 @@ Old body
     expect(
       /<!-- OPENSPEC:START -->([\s\S]*?)<!-- OPENSPEC:END -->/u.exec(updated)?.[1]
     ).toContain('$ARGUMENTS');
-    expect(updated).toContain('**Guardrails**');
+    expect(updated).toContain('**指導原則**');
     expect(updated).not.toContain('Old body');
 
     expect(consoleSpy).toHaveBeenCalledWith(
@@ -561,7 +561,7 @@ Old body
     await updateCommand.execute(testDir);
 
     const updatedContent = await fs.readFile(aqPath, 'utf-8');
-    expect(updatedContent).toContain('**Guardrails**');
+    expect(updatedContent).toContain('**指導原則**');
     expect(updatedContent).toContain('<!-- OPENSPEC:START -->');
     expect(updatedContent).toContain('<!-- OPENSPEC:END -->');
     expect(updatedContent).not.toContain('Old body');
@@ -622,7 +622,7 @@ Old body
     await updateCommand.execute(testDir);
 
     const updatedContent = await fs.readFile(auggiePath, 'utf-8');
-    expect(updatedContent).toContain('**Guardrails**');
+    expect(updatedContent).toContain('**指導原則**');
     expect(updatedContent).toContain('<!-- OPENSPEC:START -->');
     expect(updatedContent).toContain('<!-- OPENSPEC:END -->');
     expect(updatedContent).not.toContain('Old body');
@@ -686,19 +686,19 @@ Old slash content
 
     const updated = await fs.readFile(codeBuddyPath, 'utf-8');
     expect(updated).toContain('name: OpenSpec: Proposal');
-    expect(updated).toContain('**Guardrails**');
+    expect(updated).toContain('**指導原則**');
     expect(updated).toContain(
-      'Validate with `openspec validate <id> --strict`'
+      '使用 `openspec-tw validate <id> --strict` 驗證'
     );
     expect(updated).not.toContain('Old slash content');
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
     expect(logMessage).toContain(
-      'Updated slash commands: .codebuddy/commands/openspec/proposal.md'
+      '已更新 slash 命令： .codebuddy/commands/openspec/proposal.md'
     );
 
     consoleSpy.mockRestore();
@@ -764,19 +764,19 @@ Old slash content
 
     const updated = await fs.readFile(crushPath, 'utf-8');
     expect(updated).toContain('name: OpenSpec: Proposal');
-    expect(updated).toContain('**Guardrails**');
+    expect(updated).toContain('**指導原則**');
     expect(updated).toContain(
-      'Validate with `openspec validate <id> --strict`'
+      '使用 `openspec-tw validate <id> --strict` 驗證'
     );
     expect(updated).not.toContain('Old slash content');
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
     expect(logMessage).toContain(
-      'Updated slash commands: .crush/commands/openspec/proposal.md'
+      '已更新 slash 命令： .crush/commands/openspec/proposal.md'
     );
 
     consoleSpy.mockRestore();
@@ -834,7 +834,7 @@ Old body
     expect(updated).toContain('## Custom Intro Title');
     expect(updated).toContain('Footer stays');
     expect(updated).not.toContain('Old body');
-    expect(updated).toContain('Validate with `openspec validate <id> --strict`');
+    expect(updated).toContain('使用 `openspec-tw validate <id> --strict` 驗證');
   });
 
   it('should not create missing Windsurf workflows on update', async () => {
@@ -873,7 +873,7 @@ Old body
     // Should only update OpenSpec instructions
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
     consoleSpy.mockRestore();
@@ -897,10 +897,10 @@ Old body
     // Should report updating with new format
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
-    expect(logMessage).toContain('Updated AI tool files: CLAUDE.md');
+    expect(logMessage).toContain('已更新 AI 工具檔案：CLAUDE.md');
     consoleSpy.mockRestore();
   });
 
@@ -965,7 +965,7 @@ Old content
     expect(fileExists).toBe(true);
 
     const content = await fs.readFile(agentsPath, 'utf-8');
-    expect(content).toContain('# OpenSpec Instructions');
+    expect(content).toContain('# OpenSpec 指令');
   });
 
   it('should create root AGENTS.md with managed block when missing', async () => {
@@ -978,7 +978,7 @@ Old content
     const content = await fs.readFile(rootAgentsPath, 'utf-8');
     expect(content).toContain('<!-- OPENSPEC:START -->');
     expect(content).toContain("@/openspec/AGENTS.md");
-    expect(content).toContain('openspec update');
+    expect(content).toContain('openspec-tw update');
     expect(content).toContain('<!-- OPENSPEC:END -->');
   });
 
@@ -995,12 +995,12 @@ Old content
     expect(updated).toContain('# Custom intro');
     expect(updated).toContain('# Footnotes');
     expect(updated).toContain("@/openspec/AGENTS.md");
-    expect(updated).toContain('openspec update');
+    expect(updated).toContain('openspec-tw update');
     expect(updated).not.toContain('Old content');
 
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md, AGENTS.md)'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md、AGENTS.md）'
     );
     expect(logMessage).not.toContain('AGENTS.md (created)');
 
@@ -1016,7 +1016,7 @@ Old content
 
     // Execute update command and expect error
     await expect(updateCommand.execute(testDir)).rejects.toThrow(
-      "No OpenSpec directory found. Run 'openspec init' first."
+      "找不到 OpenSpec 目錄。請先執行 'openspec-tw init'。"
     );
   });
 
@@ -1049,10 +1049,10 @@ Old content
     expect(errorSpy).toHaveBeenCalled();
     const [logMessage] = consoleSpy.mock.calls[0];
     expect(logMessage).toContain(
-      'Updated OpenSpec instructions (openspec/AGENTS.md'
+      '已更新 OpenSpec 指令（openspec/AGENTS.md'
     );
     expect(logMessage).toContain('AGENTS.md (created)');
-    expect(logMessage).toContain('Failed to update: CLAUDE.md');
+    expect(logMessage).toContain('更新失敗：CLAUDE.md');
 
     // Restore permissions for cleanup
     await fs.chmod(claudePath, 0o644);

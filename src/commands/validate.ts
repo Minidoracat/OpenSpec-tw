@@ -93,7 +93,7 @@ export class ValidateCommand {
   }
 
   private printNonInteractiveHint(): void {
-    console.error('沒有要驗證的內容。請嘗試以下命令：');
+    console.error('沒有內容可驗證。請嘗試以下其中之一：');
     console.error('  openspec-tw validate --all');
     console.error('  openspec-tw validate --changes');
     console.error('  openspec-tw validate --specs');
@@ -117,7 +117,7 @@ export class ValidateCommand {
     }
 
     if (!opts.typeOverride && isChange && isSpec) {
-      console.error(`項目 '${itemName}' 模糊不清，同時符合變更和規範。`);
+      console.error(`項目 '${itemName}' 不明確，同時符合變更和規範。`);
       console.error('請傳遞 --type change|spec，或使用：openspec-tw change validate / openspec-tw spec validate');
       process.exitCode = 1;
       return;
@@ -176,7 +176,7 @@ export class ValidateCommand {
       bullets.push('- 每個需求必須包含至少一個 #### Scenario: 區塊');
       bullets.push('- 使用 --json 重新執行以查看結構化報告');
     }
-    console.error('後續步驟：');
+    console.error('下一步：');
     bullets.forEach(b => console.error(`  ${b}`));
   }
 
@@ -231,7 +231,7 @@ export class ValidateCommand {
               if (res.valid) passed++; else failed++;
             })
             .catch((error: any) => {
-              const message = error?.message || 'Unknown error';
+              const message = error?.message || '未知錯誤';
               const res: BulkItemResult = { id: getPlannedId(currentIndex, changeIds, specIds) ?? 'unknown', type: getPlannedType(currentIndex, changeIds, specIds) ?? 'change', valid: false, issues: [{ level: 'ERROR', path: 'file', message }], durationMs: 0 };
               results.push(res);
               failed++;

@@ -30,7 +30,7 @@ There are changes proposed, but no delta specs provided yet.`;
     expect(report.valid).toBe(false);
     const msg = report.issues.map(i => i.message).join('\n');
     expect(msg).toContain('Change must have at least one delta');
-    expect(msg).toContain('Ensure your change has a specs/ directory');
+    expect(msg).toContain('請確保您的變更有一個 specs/ 目錄');
     expect(msg).toContain('## ADDED/MODIFIED/REMOVED/RENAMED Requirements');
   });
 

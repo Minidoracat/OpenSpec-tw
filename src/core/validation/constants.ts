@@ -38,7 +38,7 @@ export const VALIDATION_MESSAGES = {
   
   // Guidance snippets (appended to primary messages for remediation)
   GUIDE_NO_DELTAS:
-    'No deltas found. Ensure your change has a specs/ directory with capability folders (e.g. specs/http-server/spec.md) containing .md files that use delta headers (## ADDED/MODIFIED/REMOVED/RENAMED Requirements) and that each requirement includes at least one "#### Scenario:" block. Tip: run "openspec change show <change-id> --json --deltas-only" to inspect parsed deltas.',
+    '找不到差異。請確保您的變更有一個 specs/ 目錄，其中包含功能資料夾（例如 specs/http-server/spec.md），這些資料夾包含使用差異標題（## ADDED/MODIFIED/REMOVED/RENAMED Requirements）的 .md 檔案，並且每個需求至少包含一個 "#### Scenario:" 區塊。提示：執行 "openspec-tw change show <change-id> --json --deltas-only" 來檢查已解析的差異。',
   GUIDE_MISSING_SPEC_SECTIONS:
     'Missing required sections. Expected headers: "## Purpose" and "## Requirements". Example:\n## Purpose\n[brief purpose]\n\n## Requirements\n### Requirement: Clear requirement statement\nUsers SHALL ...\n\n#### Scenario: Descriptive name\n- **WHEN** ...\n- **THEN** ...',
   GUIDE_MISSING_CHANGE_SECTIONS:

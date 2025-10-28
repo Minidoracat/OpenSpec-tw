@@ -78,7 +78,7 @@ export class SpecCommand {
           choices: specIds.map(id => ({ name: id, value: id })),
         });
       } else {
-        throw new Error('Missing required argument <spec-id>');
+        throw new Error('缺少必要的引數 <spec-id>');
       }
     }
 
@@ -89,7 +89,7 @@ export class SpecCommand {
 
     if (options.json) {
       if (options.requirements && options.requirement) {
-        throw new Error('Options --requirements and --requirement cannot be used together');
+        throw new Error('選項 --requirements 和 --requirement 不能一起使用');
       }
       const parsed = parseSpecFromFile(specPath, specId);
       const filtered = filterSpec(parsed, options);
@@ -115,7 +115,7 @@ export function registerSpecCommand(rootProgram: typeof program) {
 
   // Deprecation notice for noun-based commands
   specCommand.hook('preAction', () => {
-    console.error('Warning: The "openspec spec ..." commands are deprecated. Prefer verb-first commands (e.g., "openspec show", "openspec validate --specs").');
+    console.error('警告："openspec-tw spec ..." 命令已棄用。建議使用動詞優先的命令（例如 "openspec-tw show"、"openspec-tw validate --specs"）。');
   });
 
   specCommand
@@ -131,7 +131,7 @@ export function registerSpecCommand(rootProgram: typeof program) {
         const cmd = new SpecCommand();
         await cmd.show(specId, options as any);
       } catch (error) {
-        console.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        console.error(`錯誤：${error instanceof Error ? error.message : '未知錯誤'}`);
         process.exitCode = 1;
       }
     });
@@ -190,7 +190,7 @@ export function registerSpecCommand(rootProgram: typeof program) {
           });
         }
       } catch (error) {
-        console.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        console.error(`錯誤：${error instanceof Error ? error.message : '未知錯誤'}`);
         process.exitCode = 1;
       }
     });
@@ -212,7 +212,7 @@ export function registerSpecCommand(rootProgram: typeof program) {
               choices: specIds.map(id => ({ name: id, value: id })),
             });
           } else {
-            throw new Error('Missing required argument <spec-id>');
+            throw new Error('缺少必要的引數 <spec-id>');
           }
         }
 
@@ -241,7 +241,7 @@ export function registerSpecCommand(rootProgram: typeof program) {
         }
         process.exitCode = report.valid ? 0 : 1;
       } catch (error) {
-        console.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        console.error(`錯誤：${error instanceof Error ? error.message : '未知錯誤'}`);
         process.exitCode = 1;
       }
     });

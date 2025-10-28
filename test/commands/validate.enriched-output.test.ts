@@ -37,9 +37,9 @@ describe('validate command enriched human output', () => {
         stderr = e?.stderr?.toString?.() ?? '';
       }
       expect(code).not.toBe(0);
-      expect(stderr).toContain('has issues');
-      expect(stderr).toContain('Next steps:');
-      expect(stderr).toContain('openspec change show');
+      expect(stderr).toContain('有問題');
+      expect(stderr).toContain('下一步：');
+      expect(stderr).toContain('openspec-tw change show');
     } finally {
       process.chdir(originalCwd);
     }

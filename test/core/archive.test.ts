@@ -90,7 +90,7 @@ describe('ArchiveCommand', () => {
       
       // Verify warning was logged
       expect(console.log).toHaveBeenCalledWith(
-        expect.stringContaining('Warning: 2 incomplete task(s) found')
+        expect.stringContaining('警告：發現 2 個未完成的任務')
       );
     });
 
@@ -130,7 +130,7 @@ Then expected result happens`;
     it('should throw error if change does not exist', async () => {
       await expect(
         archiveCommand.execute('non-existent-change', { yes: true })
-      ).rejects.toThrow("Change 'non-existent-change' not found.");
+      ).rejects.toThrow("找不到變更 'non-existent-change'。");
     });
 
     it('should throw error if archive already exists', async () => {
@@ -146,7 +146,7 @@ Then expected result happens`;
       // Try to archive
       await expect(
         archiveCommand.execute(changeName, { yes: true })
-      ).rejects.toThrow(`Archive '${date}-${changeName}' already exists.`);
+      ).rejects.toThrow(`封存 '${date}-${changeName}' 已存在。`);
     });
 
     it('should handle changes without tasks.md', async () => {
@@ -202,7 +202,7 @@ Then expected result happens`;
       
       // Verify skip message was logged
       expect(console.log).toHaveBeenCalledWith(
-        'Skipping spec updates (--skip-specs flag provided).'
+        '跳過規範更新（提供了 --skip-specs 旗標）。'
       );
       
       // Verify spec was NOT copied to main specs
@@ -289,13 +289,13 @@ Then expected result happens`;
       
       // Verify user was prompted about specs
       expect(mockConfirm).toHaveBeenCalledWith({
-        message: 'Proceed with spec updates?',
+        message: '要繼續更新規範嗎？',
         default: true
       });
       
       // Verify skip message was logged
       expect(console.log).toHaveBeenCalledWith(
-        'Skipping spec updates. Proceeding with archive.'
+        '跳過規範更新。繼續封存。'
       );
       
       // Verify spec was NOT copied to main specs
@@ -471,10 +471,10 @@ new body`;
       expect(unchanged).toBe(mainContent);
       // Assert error message format and abort notice
       expect(console.log).toHaveBeenCalledWith(
-        expect.stringContaining('delta validation failed')
+        expect.stringContaining('validation failed')
       );
       expect(console.log).toHaveBeenCalledWith(
-        expect.stringContaining('Aborted. No files were changed.')
+        expect.stringContaining('已中止。未變更任何檔案。')
       );
 
       // Fix MODIFIED to reference New (should succeed)
@@ -577,7 +577,7 @@ E1 updated`);
 
       // Verify aggregated totals line was printed
       expect(console.log).toHaveBeenCalledWith(
-        expect.stringContaining('Totals: + 1, ~ 1, - 0, → 1')
+        expect.stringContaining('總計：+ 1, ~ 1, - 0, → 1')
       );
     });
   });
@@ -589,7 +589,7 @@ E1 updated`);
       
       await expect(
         archiveCommand.execute('any-change', { yes: true })
-      ).rejects.toThrow("No OpenSpec changes directory found. Run 'openspec init' first.");
+      ).rejects.toThrow("找不到 OpenSpec 變更目錄。請先執行 'openspec-tw init'。");
     });
   });
 
@@ -612,7 +612,7 @@ E1 updated`);
       
       // Verify select was called with correct options (values matter, names may include progress)
       expect(mockSelect).toHaveBeenCalledWith(expect.objectContaining({
-        message: 'Select a change to archive',
+        message: '選擇要封存的變更',
         choices: expect.arrayContaining([
           expect.objectContaining({ value: change1 }),
           expect.objectContaining({ value: change2 })
@@ -645,7 +645,7 @@ E1 updated`);
       
       // Verify confirm was called
       expect(mockConfirm).toHaveBeenCalledWith({
-        message: 'Warning: 1 incomplete task(s) found. Continue?',
+        message: '警告：發現 1 個未完成的任務。要繼續嗎？',
         default: false
       });
     });
@@ -671,7 +671,7 @@ E1 updated`);
       await archiveCommand.execute(changeName, { noValidate: true });
       
       // Verify archive was cancelled
-      expect(console.log).toHaveBeenCalledWith('Archive cancelled.');
+      expect(console.log).toHaveBeenCalledWith('已取消封存。');
       
       // Verify change was not archived
       await expect(fs.access(changeDir)).resolves.not.toThrow();

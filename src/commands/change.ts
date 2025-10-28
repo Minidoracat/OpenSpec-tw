@@ -118,7 +118,7 @@ export class ChangeCommand {
             } catch (error) {
               // Tasks file may not exist, which is okay
               if (process.env.DEBUG) {
-                console.error(`Failed to read tasks file at ${tasksPath}:`, error);
+                console.error(`無法讀取任務檔案 ${tasksPath}：`, error);
               }
             }
             
@@ -131,7 +131,7 @@ export class ChangeCommand {
           } catch (error) {
             return {
               id: changeName,
-              title: 'Unknown',
+              title: '未知',
               deltaCount: 0,
               taskStatus: { total: 0, completed: 0 },
             };
@@ -167,7 +167,7 @@ export class ChangeCommand {
             taskStatusText = ` [tasks ${completed}/${total}]`;
           } catch (error) {
             if (process.env.DEBUG) {
-              console.error(`Failed to read tasks file at ${tasksPath}:`, error);
+              console.error(`無法讀取任務檔案 ${tasksPath}：`, error);
             }
           }
           const changeDir = path.join(changesPath, changeName);
