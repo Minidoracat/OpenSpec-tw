@@ -1,6 +1,6 @@
 {
   "name": "@minidoracat/openspec-tw",
-  "version": "0.13.0-tw.1",
+  "version": "0.13.0",
   "description": "繁體中文 AI 原生的規範驅動開發系統",
   "keywords": [
     "openspec",
