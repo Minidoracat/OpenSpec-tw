@@ -155,19 +155,19 @@ export class Validator {
           const key = normalizeRequirementName(block.name);
           totalDeltas++;
           if (addedNames.has(key)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `Duplicate requirement in ADDED: "${block.name}"` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `新增區段中有重複的需求：「${block.name}」` });
           } else {
             addedNames.add(key);
           }
           const requirementText = this.extractRequirementText(block.raw);
           if (!requirementText) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `ADDED "${block.name}" is missing requirement text` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `新增「${block.name}」缺少需求文字` });
           } else if (!this.containsShallOrMust(requirementText)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `ADDED "${block.name}" must contain SHALL or MUST` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `新增「${block.name}」必須包含 SHALL 或 MUST` });
           }
           const scenarioCount = this.countScenarios(block.raw);
           if (scenarioCount < 1) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `ADDED "${block.name}" must include at least one scenario` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `新增「${block.name}」必須至少包含一個情境` });
           }
         }
 
@@ -176,19 +176,19 @@ export class Validator {
           const key = normalizeRequirementName(block.name);
           totalDeltas++;
           if (modifiedNames.has(key)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `Duplicate requirement in MODIFIED: "${block.name}"` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `修改區段中有重複的需求：「${block.name}」` });
           } else {
             modifiedNames.add(key);
           }
           const requirementText = this.extractRequirementText(block.raw);
           if (!requirementText) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `MODIFIED "${block.name}" is missing requirement text` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `修改「${block.name}」缺少需求文字` });
           } else if (!this.containsShallOrMust(requirementText)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `MODIFIED "${block.name}" must contain SHALL or MUST` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `修改「${block.name}」必須包含 SHALL 或 MUST` });
           }
           const scenarioCount = this.countScenarios(block.raw);
           if (scenarioCount < 1) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `MODIFIED "${block.name}" must include at least one scenario` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `修改「${block.name}」必須至少包含一個情境` });
           }
         }
 
@@ -197,7 +197,7 @@ export class Validator {
           const key = normalizeRequirementName(name);
           totalDeltas++;
           if (removedNames.has(key)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `Duplicate requirement in REMOVED: "${name}"` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `移除區段中有重複的需求：「${name}」` });
           } else {
             removedNames.add(key);
           }
@@ -209,12 +209,12 @@ export class Validator {
           const toKey = normalizeRequirementName(to);
           totalDeltas++;
           if (renamedFrom.has(fromKey)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `Duplicate FROM in RENAMED: "${from}"` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `重新命名區段中有重複的來源名稱：「${from}」` });
           } else {
             renamedFrom.add(fromKey);
           }
           if (renamedTo.has(toKey)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `Duplicate TO in RENAMED: "${to}"` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `重新命名區段中有重複的目標名稱：「${to}」` });
           } else {
             renamedTo.add(toKey);
           }
@@ -223,25 +223,25 @@ export class Validator {
         // Cross-section conflicts (within the same spec file)
         for (const n of modifiedNames) {
           if (removedNames.has(n)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `Requirement present in both MODIFIED and REMOVED: "${n}"` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `需求同時出現在修改和移除區段：「${n}」` });
           }
           if (addedNames.has(n)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `Requirement present in both MODIFIED and ADDED: "${n}"` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `需求同時出現在修改和新增區段：「${n}」` });
           }
         }
         for (const n of addedNames) {
           if (removedNames.has(n)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `Requirement present in both ADDED and REMOVED: "${n}"` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `需求同時出現在新增和移除區段：「${n}」` });
           }
         }
         for (const { from, to } of plan.renamed) {
           const fromKey = normalizeRequirementName(from);
           const toKey = normalizeRequirementName(to);
           if (modifiedNames.has(fromKey)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `MODIFIED references old name from RENAMED. Use new header for "${to}"` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `修改區段引用了重新命名的舊名稱，請使用新標題：「${to}」` });
           }
           if (addedNames.has(toKey)) {
-            issues.push({ level: 'ERROR', path: entryPath, message: `RENAMED TO collides with ADDED for "${to}"` });
+            issues.push({ level: 'ERROR', path: entryPath, message: `重新命名的目標名稱與新增區段衝突：「${to}」` });
           }
         }
       }
@@ -253,14 +253,14 @@ export class Validator {
       issues.push({
         level: 'ERROR',
         path: specPath,
-        message: `Delta sections ${this.formatSectionList(sections)} were found, but no requirement entries parsed. Ensure each section includes at least one "### Requirement:" block (REMOVED may use bullet list syntax).`,
+        message: `找到差異區段 ${this.formatSectionList(sections)}，但沒有解析到任何需求項目。請確保每個區段至少包含一個「### Requirement:」或「### 需求：」區塊（移除區段可使用項目符號列表語法）。`,
       });
     }
     for (const path of missingHeaderSpecs) {
       issues.push({
         level: 'ERROR',
         path,
-        message: 'No delta sections found. Add headers such as "## ADDED Requirements" or move non-delta notes outside specs/.',
+        message: '找不到差異區段。請加入標題如「## 新增需求」或「## ADDED Requirements」，或將非差異說明移到 specs/ 目錄外。',
       });
     }
 
@@ -349,10 +349,10 @@ export class Validator {
     if (msg === VALIDATION_MESSAGES.CHANGE_NO_DELTAS) {
       return `${msg}. ${VALIDATION_MESSAGES.GUIDE_NO_DELTAS}`;
     }
-    if (msg.includes('Spec must have a Purpose section') || msg.includes('Spec must have a Requirements section')) {
+    if (msg.includes('規範必須包含目的區段') || msg.includes('規範必須包含需求區段')) {
       return `${msg}. ${VALIDATION_MESSAGES.GUIDE_MISSING_SPEC_SECTIONS}`;
     }
-    if (msg.includes('Change must have a Why section') || msg.includes('Change must have a What Changes section')) {
+    if (msg.includes('變更必須包含為什麼區段') || msg.includes('變更必須包含變更內容區段')) {
       return `${msg}. ${VALIDATION_MESSAGES.GUIDE_MISSING_CHANGE_SECTIONS}`;
     }
     return msg;
