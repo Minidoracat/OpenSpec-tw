@@ -29,7 +29,7 @@ describe('Validation Schemas', () => {
       const result = ScenarioSchema.safeParse(scenario);
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error.issues[0].message).toBe('Scenario text cannot be empty');
+        expect(result.error.issues[0].message).toBe('情境文字不可為空');
       }
     });
   });
@@ -62,7 +62,7 @@ describe('Validation Schemas', () => {
       const result = RequirementSchema.safeParse(requirement);
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error.issues[0].message).toBe('Requirement must contain SHALL or MUST keyword');
+        expect(result.error.issues[0].message).toBe('需求必須包含 SHALL 或 MUST 關鍵字');
       }
     });
 
@@ -75,7 +75,7 @@ describe('Validation Schemas', () => {
       const result = RequirementSchema.safeParse(requirement);
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error.issues[0].message).toBe('Requirement must have at least one scenario');
+        expect(result.error.issues[0].message).toBe('需求必須至少有一個情境');
       }
     });
   });
@@ -111,7 +111,7 @@ describe('Validation Schemas', () => {
       const result = SpecSchema.safeParse(spec);
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error.issues[0].message).toBe('Spec must have at least one requirement');
+        expect(result.error.issues[0].message).toBe('規範必須至少有一個需求');
       }
     });
   });
@@ -152,7 +152,7 @@ describe('Validation Schemas', () => {
       const result = ChangeSchema.safeParse(change);
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error.issues[0].message).toBe('Why section must be at least 50 characters');
+        expect(result.error.issues[0].message).toBe('為什麼區段必須至少 50 個字元');
       }
     });
 
@@ -173,7 +173,7 @@ describe('Validation Schemas', () => {
       const result = ChangeSchema.safeParse(change);
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error.issues[0].message).toBe('Consider splitting changes with more than 10 deltas');
+        expect(result.error.issues[0].message).toBe('考慮拆分超過 10 個差異的變更');
       }
     });
   });
@@ -245,7 +245,7 @@ Then authenticated`;
       
       expect(report.valid).toBe(false);
       expect(report.summary.errors).toBeGreaterThan(0);
-      expect(report.issues.some(i => i.message.includes('Purpose'))).toBe(true);
+      expect(report.issues.some(i => i.message.includes('目的'))).toBe(true);
     });
   });
 
@@ -284,7 +284,7 @@ We need to implement user authentication to secure the application and protect u
       
       expect(report.valid).toBe(false);
       expect(report.summary.errors).toBeGreaterThan(0);
-      expect(report.issues.some(i => i.message.includes('Why'))).toBe(true);
+      expect(report.issues.some(i => i.message.includes('為什麼'))).toBe(true);
     });
   });
 
@@ -427,7 +427,7 @@ The system will log all events.
 
       expect(report.valid).toBe(false);
       expect(report.summary.errors).toBeGreaterThan(0);
-      expect(report.issues.some(i => i.message.includes('must contain SHALL or MUST'))).toBe(true);
+      expect(report.issues.some(i => i.message.includes('必須包含 SHALL 或 MUST'))).toBe(true);
     });
 
     it('should handle requirements without metadata fields', async () => {
