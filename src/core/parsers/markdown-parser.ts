@@ -1,4 +1,5 @@
 import { Spec, Change, Requirement, Scenario, Delta, DeltaOperation } from '../schemas/index.js';
+import { SPEC_SECTIONS, CHANGE_SECTIONS, findSectionByTitleVariants } from '../i18n/section-titles.js';
 
 export interface Section {
   level: number;
@@ -23,16 +24,17 @@ export class MarkdownParser {
 
   parseSpec(name: string): Spec {
     const sections = this.parseSections();
-    const purpose = this.findSection(sections, 'Purpose')?.content || '';
-    
-    const requirementsSection = this.findSection(sections, 'Requirements');
-    
+    const purposeSection = findSectionByTitleVariants(sections, SPEC_SECTIONS.PURPOSE);
+    const requirementsSection = findSectionByTitleVariants(sections, SPEC_SECTIONS.REQUIREMENTS);
+
+    const purpose = purposeSection?.content || '';
+
     if (!purpose) {
-      throw new Error('Spec must have a Purpose section');
+      throw new Error('規範必須包含目的區段');
     }
-    
+
     if (!requirementsSection) {
-      throw new Error('Spec must have a Requirements section');
+      throw new Error('規範必須包含需求區段');
     }
 
     const requirements = this.parseRequirements(requirementsSection);
@@ -50,15 +52,18 @@ export class MarkdownParser {
 
   parseChange(name: string): Change {
     const sections = this.parseSections();
-    const why = this.findSection(sections, 'Why')?.content || '';
-    const whatChanges = this.findSection(sections, 'What Changes')?.content || '';
-    
+    const whySection = findSectionByTitleVariants(sections, CHANGE_SECTIONS.WHY);
+    const whatChangesSection = findSectionByTitleVariants(sections, CHANGE_SECTIONS.WHAT_CHANGES);
+
+    const why = whySection?.content || '';
+    const whatChanges = whatChangesSection?.content || '';
+
     if (!why) {
-      throw new Error('Change must have a Why section');
+      throw new Error('變更必須包含為什麼區段');
     }
-    
+
     if (!whatChanges) {
-      throw new Error('Change must have a What Changes section');
+      throw new Error('變更必須包含變更內容區段');
     }
 
     const deltas = this.parseDeltas(whatChanges);

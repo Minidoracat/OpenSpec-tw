@@ -1,12 +1,14 @@
+import { SPEC_SECTIONS, DELTA_SECTIONS, REQUIREMENT_PREFIXES, matchesTitle } from '../i18n/section-titles.js';
+
 export interface RequirementBlock {
-  headerLine: string; // e.g., '### Requirement: Something'
+  headerLine: string; // e.g., '### Requirement: Something' or '### 需求：Something'
   name: string; // e.g., 'Something'
   raw: string; // full block including headerLine and following content
 }
 
 export interface RequirementsSectionParts {
   before: string;
-  headerLine: string; // the '## Requirements' line
+  headerLine: string; // the '## Requirements' or '## 需求' line
   preamble: string; // content between headerLine and first requirement block
   bodyBlocks: RequirementBlock[]; // parsed requirement blocks in order
   after: string;
@@ -16,7 +18,8 @@ export function normalizeRequirementName(name: string): string {
   return name.trim();
 }
 
-const REQUIREMENT_HEADER_REGEX = /^###\s*Requirement:\s*(.+)\s*$/;
+// 支援多語言的需求標題正則表達式：### Requirement: 或 ### 需求：
+const REQUIREMENT_HEADER_REGEX = /^###\s*(?:Requirement:|需求：)\s*(.+)\s*$/;
 
 /**
  * Extracts the Requirements section from a spec file and parses requirement blocks.
@@ -24,12 +27,17 @@ const REQUIREMENT_HEADER_REGEX = /^###\s*Requirement:\s*(.+)\s*$/;
 export function extractRequirementsSection(content: string): RequirementsSectionParts {
   const normalized = normalizeLineEndings(content);
   const lines = normalized.split('\n');
-  const reqHeaderIndex = lines.findIndex(l => /^##\s+Requirements\s*$/i.test(l));
+  // 支援多語言：## Requirements 或 ## 需求
+  const reqHeaderIndex = lines.findIndex(l => {
+    const match = l.match(/^##\s+(.+)\s*$/);
+    if (!match) return false;
+    return matchesTitle(match[1], SPEC_SECTIONS.REQUIREMENTS);
+  });
 
   if (reqHeaderIndex === -1) {
     // No requirements section; create an empty one at the end
     const before = content.trimEnd();
-    const headerLine = '## Requirements';
+    const headerLine = '## 需求';
     return {
       before: before ? before + '\n\n' : '',
       headerLine,
@@ -57,8 +65,8 @@ export function extractRequirementsSection(content: string): RequirementsSection
   let cursor = 0;
   let preambleLines: string[] = [];
 
-  // Collect preamble lines until first requirement header
-  while (cursor < sectionBodyLines.length && !/^###\s+Requirement:/.test(sectionBodyLines[cursor])) {
+  // Collect preamble lines until first requirement header (支援多語言)
+  while (cursor < sectionBodyLines.length && !REQUIREMENT_HEADER_REGEX.test(sectionBodyLines[cursor])) {
     preambleLines.push(sectionBodyLines[cursor]);
     cursor++;
   }
@@ -74,9 +82,9 @@ export function extractRequirementsSection(content: string): RequirementsSection
     }
     const name = normalizeRequirementName(headerMatch[1]);
     cursor++;
-    // Gather lines until next requirement header or end of section
+    // Gather lines until next requirement header or end of section (支援多語言)
     const bodyLines: string[] = [headerLineCandidate];
-    while (cursor < sectionBodyLines.length && !/^###\s+Requirement:/.test(sectionBodyLines[cursor]) && !/^##\s+/.test(sectionBodyLines[cursor])) {
+    while (cursor < sectionBodyLines.length && !REQUIREMENT_HEADER_REGEX.test(sectionBodyLines[cursor]) && !/^##\s+/.test(sectionBodyLines[cursor])) {
       bodyLines.push(sectionBodyLines[cursor]);
       cursor++;
     }
@@ -119,10 +127,11 @@ function normalizeLineEndings(content: string): string {
 export function parseDeltaSpec(content: string): DeltaPlan {
   const normalized = normalizeLineEndings(content);
   const sections = splitTopLevelSections(normalized);
-  const addedLookup = getSectionCaseInsensitive(sections, 'ADDED Requirements');
-  const modifiedLookup = getSectionCaseInsensitive(sections, 'MODIFIED Requirements');
-  const removedLookup = getSectionCaseInsensitive(sections, 'REMOVED Requirements');
-  const renamedLookup = getSectionCaseInsensitive(sections, 'RENAMED Requirements');
+  // 支援多語言標題：ADDED Requirements / 新增需求
+  const addedLookup = getSectionMultiLang(sections, DELTA_SECTIONS.ADDED);
+  const modifiedLookup = getSectionMultiLang(sections, DELTA_SECTIONS.MODIFIED);
+  const removedLookup = getSectionMultiLang(sections, DELTA_SECTIONS.REMOVED);
+  const renamedLookup = getSectionMultiLang(sections, DELTA_SECTIONS.RENAMED);
   const added = parseRequirementBlocksFromSection(addedLookup.body);
   const modified = parseRequirementBlocksFromSection(modifiedLookup.body);
   const removedNames = parseRemovedNames(removedLookup.body);
@@ -169,14 +178,26 @@ function getSectionCaseInsensitive(sections: Record<string, string>, desired: st
   return { body: '', found: false };
 }
 
+/**
+ * 支援多語言的區段查找（例如："ADDED Requirements" 或 "新增需求"）
+ */
+function getSectionMultiLang(sections: Record<string, string>, titleVariants: readonly string[]): { body: string; found: boolean } {
+  for (const [title, body] of Object.entries(sections)) {
+    if (matchesTitle(title, titleVariants)) {
+      return { body, found: true };
+    }
+  }
+  return { body: '', found: false };
+}
+
 function parseRequirementBlocksFromSection(sectionBody: string): RequirementBlock[] {
   if (!sectionBody) return [];
   const lines = normalizeLineEndings(sectionBody).split('\n');
   const blocks: RequirementBlock[] = [];
   let i = 0;
   while (i < lines.length) {
-    // Seek next requirement header
-    while (i < lines.length && !/^###\s+Requirement:/.test(lines[i])) i++;
+    // Seek next requirement header (支援多語言)
+    while (i < lines.length && !REQUIREMENT_HEADER_REGEX.test(lines[i])) i++;
     if (i >= lines.length) break;
     const headerLine = lines[i];
     const m = headerLine.match(REQUIREMENT_HEADER_REGEX);
@@ -184,7 +205,7 @@ function parseRequirementBlocksFromSection(sectionBody: string): RequirementBloc
     const name = normalizeRequirementName(m[1]);
     const buf: string[] = [headerLine];
     i++;
-    while (i < lines.length && !/^###\s+Requirement:/.test(lines[i]) && !/^##\s+/.test(lines[i])) {
+    while (i < lines.length && !REQUIREMENT_HEADER_REGEX.test(lines[i]) && !/^##\s+/.test(lines[i])) {
       buf.push(lines[i]);
       i++;
     }
