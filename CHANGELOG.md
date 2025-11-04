@@ -1,5 +1,47 @@
 # @minidoracat/openspec-tw
 
+## 0.13.1
+
+### Patch Changes
+
+- 修復繁體中文格式驗證問題
+
+  **核心修復**：
+
+  - 新增多語言區段標題映射系統 (`src/core/i18n/section-titles.ts`)
+  - 實作遞迴區段搜尋功能，修復巢狀區段解析問題
+  - 支援繁體中文和英文雙語 Markdown 格式同時使用
+
+  **支援的繁體中文標題**：
+
+  - `## 目的` / `## Purpose`
+  - `## 需求` / `## Requirements`
+  - `## 為什麼` / `## Why`
+  - `## 變更內容` / `## What Changes`
+  - `## 新增需求` / `## ADDED Requirements`
+  - `## 修改需求` / `## MODIFIED Requirements`
+  - `## 移除需求` / `## REMOVED Requirements`
+  - `## 重新命名需求` / `## RENAMED Requirements`
+  - `### 需求：` / `### Requirement:`
+  - `#### 情境：` / `#### Scenario:`
+
+  **完整翻譯**：
+
+  - 所有驗證錯誤訊息翻譯為繁體中文
+  - 指引訊息和幫助文字完整本地化
+  - Delta spec 驗證訊息繁體化
+
+  **相容性**：
+
+  - 大小寫不敏感的標題匹配
+  - 同時支援英文和繁體中文格式
+  - 向後相容原有英文格式
+
+  **測試改進**：
+
+  - 更新所有測試案例以驗證繁體中文訊息
+  - 測試通過率從 93% 提升至 99.6%（242/243 通過）
+
 ## 0.13.0
 
 ### Minor Changes
