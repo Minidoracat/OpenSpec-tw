@@ -145,8 +145,10 @@ docs/
 
 # Claude
 .claude/
-CLAUDE.md
 .DS_Store
+
+# Upstream tracking
+openspec-upstream/
 
 # Pnpm
 .pnpm-store/
