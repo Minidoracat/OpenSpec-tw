@@ -209,7 +209,7 @@ Old slash content
     );
     expect(logMessage).toContain('AGENTS.md (created)');
     expect(logMessage).toContain(
-      '已更新 slash 命令： .clinerules/openspec-proposal.md'
+      '已更新 slash 命令： .clinerules/workflows/openspec-proposal.md'
     );
 
     consoleSpy.mockRestore();
