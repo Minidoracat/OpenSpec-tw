@@ -179,7 +179,7 @@ More rules after.`;
   it('should refresh existing Cline rule files', async () => {
     const proposalPath = path.join(
       testDir,
-      '.clinerules/openspec-proposal.md'
+      '.clinerules/workflows/openspec-proposal.md'
     );
     await fs.mkdir(path.dirname(proposalPath), { recursive: true });
     const initialContent = `# OpenSpec: Proposal

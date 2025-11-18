@@ -356,15 +356,15 @@ describe('InitCommand', () => {
 
       const clineProposal = path.join(
         testDir,
-        '.clinerules/openspec-proposal.md'
+        '.clinerules/workflows/openspec-proposal.md'
       );
       const clineApply = path.join(
         testDir,
-        '.clinerules/openspec-apply.md'
+        '.clinerules/workflows/openspec-apply.md'
       );
       const clineArchive = path.join(
         testDir,
-        '.clinerules/openspec-archive.md'
+        '.clinerules/workflows/openspec-archive.md'
       );
 
       expect(await fileExists(clineProposal)).toBe(true);
