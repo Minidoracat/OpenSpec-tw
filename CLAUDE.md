@@ -111,11 +111,11 @@ cd .. && diff -r --brief src openspec-upstream/src  # 比對差異
 | 原版追蹤     | `openspec-upstream/`               | 不提交   | 原版 git 倉庫，用於追蹤原版更新 |
 
 ### 版本對應關係
-- **當前版本**：v0.13.0-tw.1（查看 `package.json` 中的 `version` 欄位）
-- **原版版本**：v0.13.0（Git tag）
-- **同步狀態**：✅ 已同步（基於原版 v0.13.0）
-- **同步日期**：2025-10-28
-- **核心功能**：支援多個 AI 助手、改進驗證系統、封存 slash 命令
+- **當前版本**：v0.15.0（查看 `package.json` 中的 `version` 欄位）
+- **原版版本**：v0.15.0（Git tag）
+- **同步狀態**：✅ 已同步（基於原版 v0.15.0）
+- **同步日期**：2025-11-18
+- **核心功能**：新增 Qwen Code、Qoder、CoStrict、Gemini CLI、RooCode 支援；改進工具檢測邏輯
 - **本地化狀態**：✅ 完成繁體中文本地化
 
 ### 緊急情況處理
