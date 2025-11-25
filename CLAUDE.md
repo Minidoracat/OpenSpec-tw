@@ -54,7 +54,7 @@ pnpm run release:local                # 本地發布測試
 # 原版同步（使用 openspec-upstream/ 目錄）
 cd openspec-upstream && git fetch origin --tags  # 獲取最新標籤
 git tag -l | sort -V | tail -5                   # 查看最新版本
-git checkout v0.15.0                              # 檢出目標版本
+git checkout v0.16.0                              # 檢出目標版本
 cd .. && diff -r --brief src openspec-upstream/src  # 比對差異
 ```
 
@@ -111,11 +111,11 @@ cd .. && diff -r --brief src openspec-upstream/src  # 比對差異
 | 原版追蹤     | `openspec-upstream/`               | 不提交   | 原版 git 倉庫，用於追蹤原版更新 |
 
 ### 版本對應關係
-- **當前版本**：v0.15.0（查看 `package.json` 中的 `version` 欄位）
-- **原版版本**：v0.15.0（Git tag）
-- **同步狀態**：✅ 已同步（基於原版 v0.15.0）
-- **同步日期**：2025-11-18
-- **核心功能**：新增 Qwen Code、Qoder、CoStrict、Gemini CLI、RooCode 支援；改進工具檢測邏輯
+- **當前版本**：v0.16.0（查看 `package.json` 中的 `version` 欄位）
+- **原版版本**：v0.16.0（Git tag）
+- **同步狀態**：✅ 已同步（基於原版 v0.16.0）
+- **同步日期**：2025-11-25
+- **核心功能**：新增 iFlow-cli、Antigravity 支援；重構 TOML 基底類別；新增 IDE 重啟提示；修復 Qwen Code TOML 檔名
 - **本地化狀態**：✅ 完成繁體中文本地化
 
 ### 緊急情況處理
