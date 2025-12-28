@@ -85,34 +85,48 @@ AI 程式設計助手功能強大，但當需求存放在聊天記錄中時，�
 
 ### 支援的 AI 工具
 
-#### 原生 Slash 命令
+<details>
+<summary><strong>原生 Slash 命令</strong>（點擊展開）</summary>
+
 這些工具內建 OpenSpec 命令。在提示時選擇 OpenSpec 整合。
 
 | 工具 | 命令 |
 |------|----------|
-| **Claude Code** | `/openspec:proposal`、`/openspec:apply`、`/openspec:archive` |
-| **CodeBuddy Code (CLI)** | `/openspec:proposal`、`/openspec:apply`、`/openspec:archive`（`.codebuddy/commands/`）— 請參閱[文件](https://www.codebuddy.ai/cli) |
-| **Cursor** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive` |
-| **Cline** | `.clinerules/` 目錄中的規則（`.clinerules/openspec-*.md`） |
-| **Crush** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.crush/commands/openspec/`） |
-| **Factory Droid** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.factory/commands/`） |
-| **OpenCode** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive` |
-| **Kilo Code** | `/openspec-proposal.md`、`/openspec-apply.md`、`/openspec-archive.md`（`.kilocode/workflows/`） |
-| **Windsurf** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.windsurf/workflows/`） |
-| **Codex** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（全域：`~/.codex/prompts`，自動安裝） |
-| **GitHub Copilot** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.github/prompts/`） |
 | **Amazon Q Developer** | `@openspec-proposal`、`@openspec-apply`、`@openspec-archive`（`.amazonq/prompts/`） |
+| **Antigravity** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.agent/workflows/`） |
 | **Auggie (Augment CLI)** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.augment/commands/`） |
-
+| **Claude Code** | `/openspec:proposal`、`/openspec:apply`、`/openspec:archive` |
+| **Cline** | `.clinerules/workflows/` 目錄中的工作流程（`.clinerules/workflows/openspec-*.md`） |
+| **CodeBuddy Code (CLI)** | `/openspec:proposal`、`/openspec:apply`、`/openspec:archive`（`.codebuddy/commands/`）— 請參閱[文件](https://www.codebuddy.ai/cli) |
+| **Codex** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（全域：`~/.codex/prompts`，自動安裝） |
+| **CoStrict** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.cospec/openspec/commands/`）— 請參閱[文件](https://costrict.ai) |
+| **Crush** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.crush/commands/openspec/`） |
+| **Cursor** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive` |
+| **Factory Droid** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.factory/commands/`） |
+| **Gemini CLI** | `/openspec:proposal`、`/openspec:apply`、`/openspec:archive`（`.gemini/commands/openspec/`） |
+| **GitHub Copilot** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.github/prompts/`） |
+| **iFlow (iflow-cli)** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.iflow/commands/`） |
+| **Kilo Code** | `/openspec-proposal.md`、`/openspec-apply.md`、`/openspec-archive.md`（`.kilocode/workflows/`） |
+| **OpenCode** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive` |
+| **Qoder (CLI)** | `/openspec:proposal`、`/openspec:apply`、`/openspec:archive`（`.qoder/commands/openspec/`）— 請參閱[文件](https://qoder.com/cli) |
+| **Qwen Code** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.qwen/commands/`） |
+| **RooCode** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.roo/commands/`） |
+| **Windsurf** | `/openspec-proposal`、`/openspec-apply`、`/openspec-archive`（`.windsurf/workflows/`） |
 
 Kilo Code 會自動發現團隊工作流程。將產生的檔案儲存在 `.kilocode/workflows/` 下，並使用 `/openspec-proposal.md`、`/openspec-apply.md` 或 `/openspec-archive.md` 從命令面板觸發它們。
 
-#### AGENTS.md 相容
+</details>
+
+<details>
+<summary><strong>AGENTS.md 相容</strong>（點擊展開）</summary>
+
 這些工具會自動從 `openspec/AGENTS.md` 讀取工作流程指令。如果需要提醒，請要求它們遵循 OpenSpec 工作流程。深入了解 [AGENTS.md 慣例](https://agents.md/)。
 
 | 工具 |
 |-------|
-| Amp • Jules • Gemini CLI • 其他 |
+| Amp • Jules • 其他 |
+
+</details>
 
 ### 安裝與初始化
 
@@ -238,6 +252,20 @@ openspec-tw view               # 規範和變更的互動式儀表板
 openspec-tw show <change>      # 顯示變更詳情（提案、任務、規範更新）
 openspec-tw validate <change>  # 檢查規範格式和結構
 openspec-tw archive <change> [--yes|-y]   # 將已完成的變更移至 archive/（使用 --yes 為非互動式）
+
+# 配置管理（v0.17.0+）
+openspec-tw config path        # 顯示配置檔案位置
+openspec-tw config list        # 列出所有設定
+openspec-tw config get <key>   # 取得特定值
+openspec-tw config set <key> <value>  # 設定值
+openspec-tw config unset <key> # 移除設定
+openspec-tw config reset --all # 重設為預設值
+openspec-tw config edit        # 用 $EDITOR 編輯配置
+
+# Shell 自動補全（v0.17.0+，目前支援 Zsh）
+openspec-tw completion generate [shell]   # 生成補全腳本
+openspec-tw completion install [shell]    # 安裝補全
+openspec-tw completion uninstall [shell]  # 解除安裝補全
 ```
 
 ## 範例：AI 如何建立 OpenSpec 檔案
