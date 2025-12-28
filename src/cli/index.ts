@@ -3,7 +3,6 @@ import { createRequire } from 'module';
 import ora from 'ora';
 import path from 'path';
 import { promises as fs } from 'fs';
-import { InitCommand } from '../core/init.js';
 import { AI_TOOLS } from '../core/config.js';
 import { UpdateCommand } from '../core/update.js';
 import { ListCommand } from '../core/list.js';
@@ -13,6 +12,8 @@ import { registerSpecCommand } from '../commands/spec.js';
 import { ChangeCommand } from '../commands/change.js';
 import { ValidateCommand } from '../commands/validate.js';
 import { ShowCommand } from '../commands/show.js';
+import { CompletionCommand } from '../commands/completion.js';
+import { registerConfigCommand } from '../commands/config.js';
 
 const program = new Command();
 const require = createRequire(import.meta.url);
@@ -29,7 +30,7 @@ program.option('--no-color', '停用彩色輸出');
 // Apply global flags before any command runs
 program.hook('preAction', (thisCommand) => {
   const opts = thisCommand.opts();
-  if (opts.noColor) {
+  if (opts.color === false) {
     process.env.NO_COLOR = '1';
   }
 });
@@ -62,6 +63,7 @@ program
         }
       }
       
+      const { InitCommand } = await import('../core/init.js');
       const initCommand = new InitCommand({
         tools: options?.tools,
       });
@@ -199,6 +201,7 @@ program
   });
 
 registerSpecCommand(program);
+registerConfigCommand(program);
 
 // Top-level validate command
 program
@@ -247,6 +250,69 @@ program
       console.log();
       ora().fail(`Error: ${(error as Error).message}`);
       process.exit(1);
+    }
+  });
+
+// Completion command with subcommands
+const completionCmd = program
+  .command('completion')
+  .description('管理 OpenSpec CLI 的 shell 自動補全');
+
+completionCmd
+  .command('generate [shell]')
+  .description('產生指定 shell 的補全腳本（輸出到標準輸出）')
+  .action(async (shell?: string) => {
+    try {
+      const completionCommand = new CompletionCommand();
+      await completionCommand.generate({ shell });
+    } catch (error) {
+      console.log();
+      ora().fail(`Error: ${(error as Error).message}`);
+      process.exit(1);
+    }
+  });
+
+completionCmd
+  .command('install [shell]')
+  .description('安裝指定 shell 的補全腳本')
+  .option('--verbose', '顯示詳細安裝輸出')
+  .action(async (shell?: string, options?: { verbose?: boolean }) => {
+    try {
+      const completionCommand = new CompletionCommand();
+      await completionCommand.install({ shell, verbose: options?.verbose });
+    } catch (error) {
+      console.log();
+      ora().fail(`Error: ${(error as Error).message}`);
+      process.exit(1);
+    }
+  });
+
+completionCmd
+  .command('uninstall [shell]')
+  .description('解除安裝指定 shell 的補全腳本')
+  .option('-y, --yes', '跳過確認提示')
+  .action(async (shell?: string, options?: { yes?: boolean }) => {
+    try {
+      const completionCommand = new CompletionCommand();
+      await completionCommand.uninstall({ shell, yes: options?.yes });
+    } catch (error) {
+      console.log();
+      ora().fail(`Error: ${(error as Error).message}`);
+      process.exit(1);
+    }
+  });
+
+// Hidden command for machine-readable completion data
+program
+  .command('__complete <type>', { hidden: true })
+  .description('輸出機器可讀格式的補全資料（內部使用）')
+  .action(async (type: string) => {
+    try {
+      const completionCommand = new CompletionCommand();
+      await completionCommand.complete({ type });
+    } catch (error) {
+      // Silently fail for graceful shell completion experience
+      process.exitCode = 1;
     }
   });
 
